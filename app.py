@@ -1,18 +1,14 @@
-import pytest
-from app import app
+from flask import Flask, jsonify
 
-@pytest.fixture
-def client():
-    app.config["TESTING"] = True
-    with app.test_client() as client:
-        yield client
+app = Flask(name)
 
-def test_hello(client):
-    resp = client.get("/")
-    assert resp.status_code == 200
-    assert resp.get_json()["message"] == "Hello, Flask!"
+@app.route('/')
+def hello():
+    return jsonify({"message": "Hello, Flask!"})
 
-def test_add(client):
-    resp = client.get("/add/2/3")
-    assert resp.status_code == 200
-    assert resp.get_json()["result"] == 5
+@app.route('/add/<int:a>/<int:b>')
+def add(a, b):
+    return jsonify({"result": a + b})
+
+if name == 'main':
+    app.run(debug=True)
