@@ -10,5 +10,5 @@ def hello():
 def add(a, b):
     return jsonify({"result": a + b})
 
-if name == 'main':
+if __name__ == 'main':
     app.run(debug=True)
